@@ -7,6 +7,7 @@ import { HashRing } from "../ring/hashRing.js";
 import { TokenBucketLimiter, type Decision } from "../limiter/tokenBucket.js";
 import { loadConfig } from "./config.js";
 import { LeaseStore, type LeaseGrant } from "./leases.js";
+import { startHealthChecks } from "./peers.js";
 
 const config = loadConfig();
 const ring = new HashRing([...config.peers.keys()]);
@@ -195,4 +196,5 @@ server.listen(config.port, () => {
   console.log(
     `instance ${config.nodeId} listening on ${config.port} (${config.mode} mode)`,
   );
+  startHealthChecks(config, ring);
 });

@@ -12,6 +12,8 @@ export type Config = {
   leaseSize: number;
   leaseDurationMs: number;
   leasePrefetch: number; // fraction of a lease left that triggers the next request
+  healthIntervalMs: number;
+  healthMisses: number; // consecutive failed checks before a peer leaves the ring
 };
 
 function required(env: NodeJS.ProcessEnv, name: string): string {
@@ -120,6 +122,15 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     ? parseFraction(env.LEASE_PREFETCH, "LEASE_PREFETCH")
     : 0.2;
 
+  // Health defaults are the design doc's Refinement values: a dead peer
+  // leaves the ring after about 1.5s, and one slow reply doesn't evict it.
+  const healthIntervalMs = env.HEALTH_INTERVAL_MS
+    ? parsePositiveNumber(env.HEALTH_INTERVAL_MS, "HEALTH_INTERVAL_MS")
+    : 500;
+  const healthMisses = env.HEALTH_MISSES
+    ? parsePositiveInteger(env.HEALTH_MISSES, "HEALTH_MISSES")
+    : 3;
+
   return {
     nodeId,
     port,
@@ -132,5 +143,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     leaseSize,
     leaseDurationMs,
     leasePrefetch,
+    healthIntervalMs,
+    healthMisses,
   };
 }

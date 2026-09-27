@@ -48,6 +48,7 @@ async function startInstance(
   port: number,
   peers: string,
   mode: "strict" | "lease",
+  envOverrides: Record<string, string> = {},
 ): Promise<Instance> {
   const stderr: string[] = [];
   const child = spawn(process.execPath, [tsxCli, serverPath], {
@@ -64,6 +65,7 @@ async function startInstance(
       FAIL_MODE: "closed",
       FORWARD_TIMEOUT_MS: "2000",
       MODE: mode,
+      ...envOverrides,
     },
     stdio: ["ignore", "ignore", "pipe"],
   });
@@ -85,11 +87,17 @@ function check(instance: Instance, path: string, key: string): Promise<Decision>
   return post<Decision>(instance, path, key);
 }
 
-async function startCluster(mode: "strict" | "lease"): Promise<Instance[]> {
+async function startCluster(
+  mode: "strict" | "lease",
+  envOverrides: Record<string, string> = {},
+): Promise<{ instances: Instance[]; peers: string }> {
   const ids = ["a", "b", "c"];
   const ports = await Promise.all(ids.map(() => freePort()));
   const peers = ids.map((id, i) => `${id}=localhost:${ports[i]}`).join(",");
-  return Promise.all(ids.map((id, i) => startInstance(id, ports[i]!, peers, mode)));
+  const instances = await Promise.all(
+    ids.map((id, i) => startInstance(id, ports[i]!, peers, mode, envOverrides)),
+  );
+  return { instances, peers };
 }
 
 // Fired concurrently so refill (1/sec here) during the burst is negligible.
@@ -115,7 +123,7 @@ describe("cluster forwarding (strict mode)", () => {
   let instances: Instance[] = [];
 
   beforeAll(async () => {
-    instances = await startCluster("strict");
+    ({ instances } = await startCluster("strict"));
   }, 20_000);
 
   afterAll(() => {
@@ -158,7 +166,7 @@ describe("cluster leasing (lease mode)", () => {
   let instances: Instance[] = [];
 
   beforeAll(async () => {
-    instances = await startCluster("lease");
+    ({ instances } = await startCluster("lease"));
   }, 20_000);
 
   afterAll(() => {
@@ -209,4 +217,78 @@ describe("cluster leasing (lease mode)", () => {
       expect(admittedById.get(instance.id) ?? 0).toBeGreaterThan(0);
     }
   });
+});
+
+async function checkUntil(
+  instance: Instance,
+  key: string,
+  done: (d: Decision) => boolean,
+  deadlineMs = 10_000,
+): Promise<Decision> {
+  const start = Date.now();
+  while (Date.now() - start < deadlineMs) {
+    const decision = await check(instance, "/check", key);
+    if (done(decision)) return decision;
+    await new Promise((r) => setTimeout(r, 50));
+  }
+  throw new Error(`no matching decision for ${key} within ${deadlineMs}ms`);
+}
+
+function keyOwnedBy(ownerId: string): string {
+  const ring = new HashRing(["a", "b", "c"]);
+  for (let i = 0; ; i++) {
+    const key = `owned-by-${ownerId}-${i}`;
+    if (ring.getOwner(key) === ownerId) return key;
+  }
+}
+
+async function kill(instance: Instance): Promise<void> {
+  const exited = new Promise((r) => instance.child.once("exit", r));
+  instance.child.kill();
+  await exited;
+}
+
+describe.each(["closed", "open"] as const)("failure handling (FAIL_MODE=%s)", (failMode) => {
+  let instances: Instance[] = [];
+  let peers = "";
+  const env = {
+    FAIL_MODE: failMode,
+    // Short, so the dead peer leaves the ring within about a second.
+    FORWARD_TIMEOUT_MS: "200",
+    HEALTH_INTERVAL_MS: "200",
+    HEALTH_MISSES: "3",
+  };
+
+  beforeAll(async () => {
+    ({ instances, peers } = await startCluster("strict", env));
+  }, 20_000);
+
+  afterAll(() => {
+    for (const instance of instances) instance.child.kill();
+  });
+
+  it("applies FAIL_MODE while the owner is dead, then decides locally once it leaves the ring, then forwards again when it rejoins", async () => {
+    const [a, b] = instances as [Instance, Instance, Instance];
+    const key = keyOwnedBy("b");
+
+    await kill(b);
+
+    // A still has B in its ring, so the forward fails and FAIL_MODE decides.
+    // remaining 0 marks the fail-mode decision; no real bucket was consulted.
+    const whileDead = await check(a, "/check", key);
+    expect(whileDead).toEqual({ allowed: failMode === "open", remaining: 0, retryAfterMs: 0 });
+
+    // Once B leaves A's ring, A owns the key and answers from a real bucket.
+    const local = await checkUntil(a, key, (d) => d.remaining > 0);
+    expect(local.allowed).toBe(true);
+
+    // Spend A's local bucket so it can't be mistaken for B's fresh one.
+    for (let i = 0; i < 10; i++) await check(a, "/check", key);
+
+    instances[1] = await startInstance("b", b.port, peers, "strict", env);
+    // A's own bucket for the key is at most 89 by now, so 99 can only come
+    // from B's fresh bucket after A forwards to it again.
+    const rejoined = await checkUntil(a, key, (d) => d.remaining === 99);
+    expect(rejoined.allowed).toBe(true);
+  }, 30_000);
 });
