@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" font-family="sans-serif" font-size="12">
+<rect width="760" height="360" fill="#ffffff"/>
+<text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold">/check latency per second, strict vs lease (FAIL_MODE=closed, 3 runs pooled)</text>
+<line x1="60" x2="740" y1="280" y2="280" stroke="#e5e5e5"/>
+<text x="54" y="284" text-anchor="end">0</text>
+<line x1="60" x2="740" y1="232" y2="232" stroke="#e5e5e5"/>
+<text x="54" y="236" text-anchor="end">40</text>
+<line x1="60" x2="740" y1="184" y2="184" stroke="#e5e5e5"/>
+<text x="54" y="188" text-anchor="end">80</text>
+<line x1="60" x2="740" y1="136" y2="136" stroke="#e5e5e5"/>
+<text x="54" y="140" text-anchor="end">120</text>
+<line x1="60" x2="740" y1="88" y2="88" stroke="#e5e5e5"/>
+<text x="54" y="92" text-anchor="end">160</text>
+<line x1="60" x2="740" y1="40" y2="40" stroke="#e5e5e5"/>
+<text x="54" y="44" text-anchor="end">200</text>
+<text x="60" y="296" text-anchor="middle">0s</text>
+<text x="173.33333333333331" y="296" text-anchor="middle">5s</text>
+<text x="286.66666666666663" y="296" text-anchor="middle">10s</text>
+<text x="400" y="296" text-anchor="middle">15s</text>
+<text x="513.3333333333333" y="296" text-anchor="middle">20s</text>
+<text x="626.6666666666667" y="296" text-anchor="middle">25s</text>
+<text x="740" y="296" text-anchor="middle">30s</text>
+<line x1="60" x2="60" y1="40" y2="280" stroke="#333"/>
+<line x1="60" x2="740" y1="280" y2="280" stroke="#333"/>
+<text transform="translate(16 160) rotate(-90)" text-anchor="middle">latency (ms)</text>
+<line x1="286.66666666666663" x2="286.66666666666663" y1="40" y2="280" stroke="#888" stroke-dasharray="2 3"/>
+<text x="290.66666666666663" y="52" fill="#555">owner killed</text>
+<line x1="513.3333333333333" x2="513.3333333333333" y1="40" y2="280" stroke="#888" stroke-dasharray="2 3"/>
+<text x="517.3333333333333" y="52" fill="#555">owner restarted</text>
+<path d="M71.3,275.1 L94.0,275.5 L116.7,275.5 L139.3,275.7 L162.0,275.9 L184.7,276.1 L207.3,276.2 L230.0,276.2 L252.7,276.2 L275.3,276.2 L298.0,274.4 L320.7,274.9 L343.3,276.0 L366.0,276.0 L388.7,276.2 L411.3,276.1 L434.0,276.3 L456.7,276.1 L479.3,276.3 L502.0,276.3 L524.7,276.3 L547.3,275.7 L570.0,275.7 L592.7,275.9 L615.3,276.0 L638.0,276.1 L660.7,276.0 L683.3,276.1 L706.0,276.1 L728.7,276.1" fill="none" stroke="#2563eb" stroke-width="2"/>
+<path d="M71.3,267.6 L94.0,266.2 L116.7,266.1 L139.3,264.8 L162.0,268.1 L184.7,269.4 L207.3,269.7 L230.0,270.2 L252.7,269.3 L275.3,270.6 L298.0,267.0 L320.7,264.6 L343.3,268.4 L366.0,265.1 L388.7,269.5 L411.3,268.1 L434.0,260.4 L456.7,264.3 L479.3,270.3 L502.0,269.4 L524.7,240.9 L547.3,212.0 L570.0,268.0 L592.7,268.4 L615.3,268.0 L638.0,268.7 L660.7,269.8 L683.3,269.3 L706.0,267.7 L728.7,267.4" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+<path d="M71.3,277.2 L94.0,275.5 L116.7,275.9 L139.3,276.1 L162.0,276.1 L184.7,276.3 L207.3,276.3 L230.0,276.4 L252.7,276.5 L275.3,276.4 L298.0,274.7 L320.7,276.3 L343.3,276.8 L366.0,276.2 L388.7,276.3 L411.3,276.4 L434.0,276.4 L456.7,276.4 L479.3,276.4 L502.0,276.4 L524.7,276.4 L547.3,277.5 L570.0,275.6 L592.7,276.0 L615.3,276.1 L638.0,276.0 L660.7,276.2 L683.3,276.1 L706.0,276.2 L728.7,276.1" fill="none" stroke="#ea580c" stroke-width="2"/>
+<path d="M71.3,269.5 L94.0,268.8 L116.7,270.0 L139.3,271.0 L162.0,270.1 L184.7,269.5 L207.3,270.9 L230.0,271.1 L252.7,271.4 L275.3,271.7 L298.0,267.9 L320.7,266.7 L343.3,270.9 L366.0,270.3 L388.7,269.1 L411.3,270.6 L434.0,270.7 L456.7,271.0 L479.3,271.1 L502.0,270.8 L524.7,267.8 L547.3,204.6 L570.0,40.9 L592.7,267.4 L615.3,270.2 L638.0,269.2 L660.7,268.8 L683.3,267.2 L706.0,267.9 L728.7,271.1" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/>
+<line x1="60" x2="84" y1="336" y2="336" stroke="#2563eb" stroke-width="2"/>
+<text x="90" y="340">strict p50</text>
+<line x1="240" x2="264" y1="336" y2="336" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="270" y="340">strict p99</text>
+<line x1="420" x2="444" y1="336" y2="336" stroke="#ea580c" stroke-width="2"/>
+<text x="450" y="340">lease p50</text>
+<line x1="600" x2="624" y1="336" y2="336" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="630" y="340">lease p99</text>
+</svg>

@@ -6,7 +6,9 @@
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "cluster": "tsx src/cluster/launch.ts"
+    "cluster": "tsx src/cluster/launch.ts",
+    "bench": "tsx bench/faults.ts",
+    "plot": "tsx bench/plot.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" font-family="sans-serif" font-size="12">
+<rect width="760" height="360" fill="#ffffff"/>
+<text x="380" y="22" text-anchor="middle" font-size="15" font-weight="bold">Heavy key admitted per second (lease-closed), sent at 300/s</text>
+<line x1="60" x2="740" y1="280" y2="280" stroke="#e5e5e5"/>
+<text x="54" y="284" text-anchor="end">0</text>
+<line x1="60" x2="740" y1="232" y2="232" stroke="#e5e5e5"/>
+<text x="54" y="236" text-anchor="end">60</text>
+<line x1="60" x2="740" y1="184" y2="184" stroke="#e5e5e5"/>
+<text x="54" y="188" text-anchor="end">120</text>
+<line x1="60" x2="740" y1="136" y2="136" stroke="#e5e5e5"/>
+<text x="54" y="140" text-anchor="end">180</text>
+<line x1="60" x2="740" y1="88" y2="88" stroke="#e5e5e5"/>
+<text x="54" y="92" text-anchor="end">240</text>
+<line x1="60" x2="740" y1="40" y2="40" stroke="#e5e5e5"/>
+<text x="54" y="44" text-anchor="end">300</text>
+<text x="60" y="296" text-anchor="middle">0s</text>
+<text x="173.33333333333331" y="296" text-anchor="middle">5s</text>
+<text x="286.66666666666663" y="296" text-anchor="middle">10s</text>
+<text x="400" y="296" text-anchor="middle">15s</text>
+<text x="513.3333333333333" y="296" text-anchor="middle">20s</text>
+<text x="626.6666666666667" y="296" text-anchor="middle">25s</text>
+<text x="740" y="296" text-anchor="middle">30s</text>
+<line x1="60" x2="60" y1="40" y2="280" stroke="#333"/>
+<line x1="60" x2="740" y1="280" y2="280" stroke="#333"/>
+<text transform="translate(16 160) rotate(-90)" text-anchor="middle">requests per second</text>
+<line x1="287.41920000000005" x2="287.41920000000005" y1="40" y2="280" stroke="#888" stroke-dasharray="2 3"/>
+<text x="291.41920000000005" y="52" fill="#555">killed b</text>
+<line x1="513.7934666666666" x2="513.7934666666666" y1="40" y2="280" stroke="#888" stroke-dasharray="2 3"/>
+<text x="517.7934666666666" y="52" fill="#555">restarting b</text>
+<line x1="541.9772" x2="541.9772" y1="40" y2="280" stroke="#888" stroke-dasharray="2 3"/>
+<text x="545.9772" y="52" fill="#555">healthy b</text>
+<path d="M71.3,120.8 L94.0,200.0 L116.7,200.0 L139.3,200.0 L162.0,200.0 L184.7,200.0 L207.3,200.0 L230.0,200.0 L252.7,200.0 L275.3,200.0 L298.0,279.2 L320.7,173.6 L343.3,173.6 L366.0,199.2 L388.7,200.0 L411.3,200.8 L434.0,199.2 L456.7,200.8 L479.3,200.0 L502.0,200.0 L524.7,199.2 L547.3,99.2 L570.0,204.8 L592.7,200.0 L615.3,200.8 L638.0,199.2 L660.7,200.8 L683.3,199.2 L706.0,200.8 L728.7,200.0" fill="none" stroke="#1e40af" stroke-width="2"/>
+<path d="M71.3,120.8 L94.0,200.0 L116.7,200.0 L139.3,200.0 L162.0,200.0 L184.7,200.0 L207.3,200.0 L230.0,200.0 L252.7,200.0 L275.3,200.0 L298.0,279.2 L320.7,169.6 L343.3,176.0 L366.0,200.0 L388.7,200.0 L411.3,200.0 L434.0,200.0 L456.7,199.2 L479.3,200.8 L502.0,200.0 L524.7,200.0 L547.3,88.0 L570.0,200.0 L592.7,200.0 L615.3,200.0 L638.0,200.0 L660.7,200.8 L683.3,199.2 L706.0,200.0 L728.7,200.0" fill="none" stroke="#3b82f6" stroke-width="2"/>
+<path d="M71.3,120.8 L94.0,200.8 L116.7,198.4 L139.3,200.8 L162.0,200.0 L184.7,200.0 L207.3,200.0 L230.0,200.0 L252.7,199.2 L275.3,200.8 L298.0,279.2 L320.7,181.6 L343.3,170.4 L366.0,200.0 L388.7,200.0 L411.3,200.0 L434.0,200.0 L456.7,200.0 L479.3,200.8 L502.0,199.2 L524.7,195.2 L547.3,119.2 L570.0,200.0 L592.7,200.8 L615.3,198.4 L638.0,200.8 L660.7,200.8 L683.3,199.2 L706.0,200.0 L728.7,200.0" fill="none" stroke="#93c5fd" stroke-width="2"/>
+<path d="M71.3,280.0 L94.0,280.0 L116.7,280.0 L139.3,280.0 L162.0,280.0 L184.7,280.0 L207.3,280.0 L230.0,280.0 L252.7,280.0 L275.3,280.0 L298.0,202.4 L320.7,200.0 L343.3,200.0 L366.0,202.4 L388.7,200.0 L411.3,198.4 L434.0,200.0 L456.7,199.2 L479.3,200.8 L502.0,200.0 L524.7,199.2 L547.3,260.8 L570.0,280.0 L592.7,280.0 L615.3,280.0 L638.0,280.0 L660.7,280.0 L683.3,280.0 L706.0,280.0 L728.7,280.0" fill="none" stroke="#dc2626" stroke-width="2"/>
+<path d="M71.3,200.0 L94.0,200.0 L116.7,200.0 L139.3,200.0 L162.0,200.0 L184.7,200.0 L207.3,200.0 L230.0,200.0 L252.7,200.0 L275.3,200.0 L298.0,200.0 L320.7,200.0 L343.3,200.0 L366.0,200.0 L388.7,200.0 L411.3,200.0 L434.0,200.0 L456.7,200.0 L479.3,200.0 L502.0,200.0 L524.7,200.0 L547.3,200.0 L570.0,200.0 L592.7,200.0 L615.3,200.0 L638.0,200.0 L660.7,200.0 L683.3,200.0 L706.0,200.0 L728.7,200.0" fill="none" stroke="#111111" stroke-width="2" stroke-dasharray="6 4"/>
+<line x1="60" x2="84" y1="336" y2="336" stroke="#1e40af" stroke-width="2"/>
+<text x="90" y="340">admitted, run 1</text>
+<line x1="240" x2="264" y1="336" y2="336" stroke="#3b82f6" stroke-width="2"/>
+<text x="270" y="340">admitted, run 2</text>
+<line x1="420" x2="444" y1="336" y2="336" stroke="#93c5fd" stroke-width="2"/>
+<text x="450" y="340">admitted, run 3</text>
+<line x1="600" x2="624" y1="336" y2="336" stroke="#dc2626" stroke-width="2"/>
+<text x="630" y="340">errors (run 1)</text>
+<line x1="780" x2="804" y1="336" y2="336" stroke="#111111" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="810" y="340">limit (100/s)</text>
+</svg>
