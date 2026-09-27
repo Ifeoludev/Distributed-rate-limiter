@@ -167,3 +167,53 @@ describe("TokenBucketLimiter.take", () => {
     expect(limiter.take("k", 10).granted).toBe(3);
   });
 });
+
+describe("TokenBucketLimiter.sweep", () => {
+  it("deletes buckets that have refilled to full and keeps the rest", () => {
+    const { clock, advance } = fakeClock();
+    const limiter = new TokenBucketLimiter(
+      { capacity: 10, refillPerSec: 10 },
+      clock,
+    );
+
+    limiter.allow("idle", 10);
+    advance(500);
+    limiter.allow("busy", 10);
+    advance(500); // "idle" is full again after 1s; "busy" has 5 tokens back
+
+    expect(limiter.sweep()).toBe(1);
+    expect(limiter.sweep()).toBe(0);
+  });
+
+  it("keeps a partly used bucket's state after a sweep", () => {
+    const { clock, advance } = fakeClock();
+    const limiter = new TokenBucketLimiter(
+      { capacity: 10, refillPerSec: 10 },
+      clock,
+    );
+
+    limiter.allow("k", 10);
+    advance(300); // 3 tokens back
+    limiter.sweep();
+    expect(limiter.allow("k", 3).allowed).toBe(true);
+    expect(limiter.allow("k").allowed).toBe(false);
+  });
+
+  it("a swept key behaves exactly like a fresh full bucket", () => {
+    const { clock, advance } = fakeClock();
+    const limiter = new TokenBucketLimiter(
+      { capacity: 10, refillPerSec: 10 },
+      clock,
+    );
+
+    limiter.allow("k", 10);
+    advance(1000);
+    expect(limiter.sweep()).toBe(1);
+    expect(limiter.allow("k", 10)).toEqual({
+      allowed: true,
+      remaining: 0,
+      retryAfterMs: 0,
+    });
+    expect(limiter.allow("k").allowed).toBe(false);
+  });
+});

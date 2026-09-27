@@ -3,6 +3,7 @@ import {
   type IncomingMessage,
   type ServerResponse,
 } from "node:http";
+import { performance } from "node:perf_hooks";
 import { HashRing } from "../ring/hashRing.js";
 import { TokenBucketLimiter, type Decision } from "../limiter/tokenBucket.js";
 import { loadConfig } from "./config.js";
@@ -11,9 +12,13 @@ import { startHealthChecks } from "./peers.js";
 
 const config = loadConfig();
 const ring = new HashRing([...config.peers.keys()]);
+// Monotonic, so a wall-clock adjustment (NTP step, manual change) can't mint
+// or destroy tokens or stretch a lease. Only durations cross between
+// instances, so each process having its own time origin is fine.
+const monotonicClock = () => performance.now();
 const limiter = new TokenBucketLimiter(
   { capacity: config.capacity, refillPerSec: config.refillPerSec },
-  Date.now,
+  monotonicClock,
 );
 
 type CheckRequest = { key: string; cost?: number };
@@ -83,7 +88,7 @@ const leases = new LeaseStore(
   requestLease,
   config.leaseSize,
   config.leasePrefetch,
-  Date.now,
+  monotonicClock,
 );
 
 // `remaining` here is what is left of this instance's lease, not the owner's bucket.
@@ -197,4 +202,10 @@ server.listen(config.port, () => {
     `instance ${config.nodeId} listening on ${config.port} (${config.mode} mode)`,
   );
   startHealthChecks(config, ring);
+  // One interval is the time an empty bucket takes to refill completely, so
+  // any key idle for a whole interval is gone by the next sweep.
+  setInterval(
+    () => limiter.sweep(),
+    (config.capacity / config.refillPerSec) * 1000,
+  );
 });

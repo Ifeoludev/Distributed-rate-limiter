@@ -66,6 +66,21 @@ export class TokenBucketLimiter implements Limiter {
     return { granted: 0, retryAfterMs };
   }
 
+  // A full bucket carries no information: a missing key is created full, so
+  // deleting it changes no decision and keeps memory bounded by active keys.
+  sweep(): number {
+    const now = this.clock();
+    let removed = 0;
+    for (const [key, bucket] of this.buckets) {
+      const elapsed = now - bucket.lastRefillMs;
+      if (bucket.tokens + elapsed * this.refillPerMs >= this.rule.capacity) {
+        this.buckets.delete(key);
+        removed++;
+      }
+    }
+    return removed;
+  }
+
   private refill(key: string): Bucket {
     const now = this.clock();
     const bucket = this.buckets.get(key) ?? {
